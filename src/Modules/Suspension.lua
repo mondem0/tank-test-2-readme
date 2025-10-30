@@ -2,6 +2,7 @@ local RunService = game:GetService("RunService")
 local Workspace = game:GetService("Workspace")
 
 local Suspension = {}
+Suspension.__index = Suspension
 Suspension.SuspensionType = {
     Torsion = "Torsion",
     Christie = "Christie",
@@ -175,7 +176,10 @@ local function createHull(config)
     hull.Size = config.hullSize or Vector3.new(8, 2, 16)
     hull.Anchored = false
     hull.Position = config.hullPosition or Vector3.new(0, 4, 0)
-    hull.CustomPhysicalProperties = PhysicalProperties.new(config.mass or 22000, 0.3, 0.4)
+    local desiredMass = config.mass or 22000
+    local volume = hull.Size.X * hull.Size.Y * hull.Size.Z
+    local density = desiredMass / volume
+    hull.CustomPhysicalProperties = PhysicalProperties.new(math.clamp(density, 0.0001, 100), 0.3, 0.4)
     hull.Parent = Workspace
 
     local cgAttachment = Instance.new("Attachment")
