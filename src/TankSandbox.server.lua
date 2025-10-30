@@ -118,6 +118,8 @@ local function setSharedValue(name, value)
     obj.Value = tostring(value)
 end
 
+local presetChangedEvent
+
 local function applyConfig(config)
     if currentSuspension then
         currentSuspension:destroy()
@@ -173,7 +175,7 @@ local presetEvent = Instance.new("RemoteEvent")
 presetEvent.Name = "TankApplyPreset"
 presetEvent.Parent = ReplicatedStorage
 
-local presetChangedEvent = Instance.new("RemoteEvent")
+presetChangedEvent = Instance.new("RemoteEvent")
 presetChangedEvent.Name = "TankPresetChanged"
 presetChangedEvent.Parent = ReplicatedStorage
 
